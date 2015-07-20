@@ -1,23 +1,41 @@
-from flask import render_template, session, url_for, redirect
+from flask import render_template, session, url_for, redirect, g
+from flask.ext.login import login_required, login_user, current_user
 from grouper import app, lm
 from grouper.forms import LoginForm, SignUpForm
+from models import User
+from mongoengine.errors import DoesNotExist
 
 __author__ = 'David'
 
 @app.route('/')
 @app.route('/index')
+@login_required
 def index():
-    return render_template('index.html')
+    # return render_template('index.html')
+    return 'Hello, %s.' % g.user.first_name
 
 @lm.user_loader
 def load_user(id):
-    pass
+    return User.objects.with_id(id)
+
+@app.before_request
+def before_request():
+    g.user = current_user
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        print form.username.data, form.password.data
+        try:
+            u = User.objects.get(username=form.username.data)
+            if u.password == form.password.data:
+                session['logged_in'] = True
+                login_user(u)
+                return redirect(url_for('index'))
+            else:
+                print 'Invalid Password!'
+        except DoesNotExist:
+            print 'Invalid User!'
     return render_template('login.html', form=form)
 
 @app.route('/signup', methods=['GET', 'POST'])
