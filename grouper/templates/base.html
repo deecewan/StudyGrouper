@@ -1,0 +1,14 @@
+{#Creates a standardised base that the other templates extend.#}
+{#This keeps the look and feel of the site the same#}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - StudyGrouper</title>
+</head>
+<body>
+{% block content %}
+{% endblock %}
+</body>
+</html>
