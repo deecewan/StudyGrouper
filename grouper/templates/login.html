@@ -2,7 +2,7 @@
 
 {% block title %}Log In{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="/static/login.css">
+    <link rel="stylesheet" href="/static/login.css">
 {% endblock %}
 {% block content %}
 
@@ -16,12 +16,14 @@
             <form action="" method="post" class="form form--login">
                 {{ form.hidden_tag() }}
                 <div class="form__field">
-                    <label class="fontawesome-user" for="username"><span class="hidden">Username</span></label>
+                    <label class="fontawesome-user" for="username" id="user_icon"><span
+                            class="hidden">Username</span></label>
                     {{ form.username(placeholder='username') }}
                 </div>
 
                 <div class="form__field">
-                    <label class="fontawesome-lock" for="password"><span class="hidden">Password</span></label>
+                    <label class="fontawesome-lock" for="password" id="password_icon"><span
+                            class="hidden">Password</span></label>
                     {{ form.password(placeholder='password') }}
                 </div>
 
@@ -37,6 +39,35 @@
         </div>
 
     </div>
+    <script>
+        $(document).ready(
+                function () {
+                    $("#password").hover(function () { {# if the element is hovered, change to dark background #}
+                        $("#password_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
+                    }, function () {
+                        if (!$(this).is(":focus")) { {# check if the element has lost focus.  if yes, mouse out should
+                         trigger change to original colour.  if no, mouse out should do nothing.#}
+                            $("#password_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                        }
+                    }).focusin(function(){ {# if the field is entered without the mouse, set correct colours (dark) #}
+                        $("#password_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
+                    }).focusout(function () { {# and finally, when the focus is lost, change to original colors #}
+                        {# TODO: fix change of colour on hover when tab used to change fields.  This causes original colours to show #}
+                        $("#password_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                    });
 
+                    $("#username").hover(function () {
+                        $("#user_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
+                    }, function () {
+                        if (!$(this).is(":focus")) {
+                            $("#user_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                        }
+                    }).focusin(function(){
+                        $("#user_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
+                    }).focusout(function () {
+                        $("#user_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                    });
+                });
+    </script>
     </body>
 {% endblock %}
