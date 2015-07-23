@@ -13,6 +13,23 @@
 
         <div class="grid__container">
 
+            {% if form.username.errors or form.password.errors %}
+                <div class="errors">
+
+                    <ul>
+                        {% for error in form.username.errors %}
+                            <li class="error">{{ error }}</li>
+                        {% endfor %}
+                        {% for error in form.password.errors %}
+                            <li class="error">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+            {% endif %}
+
+
+
             <form action="" method="post" class="form form--login">
                 {{ form.hidden_tag() }}
                 <div class="form__field">
@@ -49,11 +66,12 @@
                          trigger change to original colour.  if no, mouse out should do nothing.#}
                             $("#password_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
                         }
-                    }).focusin(function(){ {# if the field is entered without the mouse, set correct colours (dark) #}
+                    }).focusin(function () { {# if the field is entered without the mouse, set correct colours (dark) #}
                         $("#password_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
                     }).focusout(function () { {# and finally, when the focus is lost, change to original colors #}
-                        {# TODO: fix change of colour on hover when tab used to change fields.  This causes original colours to show #}
-                        $("#password_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                        if (!$(this).is(":hover")) {
+                            $("#password_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                        }
                     });
 
                     $("#username").hover(function () {
@@ -62,11 +80,45 @@
                         if (!$(this).is(":focus")) {
                             $("#user_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
                         }
-                    }).focusin(function(){
+                    }).focusin(function () {
                         $("#user_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
                     }).focusout(function () {
-                        $("#user_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                        if (!$(this).is(":hover")) {
+                            $("#user_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                        }
                     });
+
+                    {# hovering over icons causes expected behaviour#}
+                    $("#password_icon").hover(function () { {# if the element is hovered, change to dark background #}
+                        $("#password_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
+                    }, function () {
+                        if (!$(this).is(":focus")) { {# check if the element has lost focus.  if yes, mouse out should
+                         trigger change to original colour.  if no, mouse out should do nothing.#}
+                            $("#password_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                        }
+                    }).focusin(function () { {# if the field is entered without the mouse, set correct colours (dark) #}
+                        $("#password_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
+                    }).focusout(function () { {# and finally, when the focus is lost, change to original colors #}
+                        if (!$(this).is(":hover")) {
+                            $("#password_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                        }
+                    });
+
+                    $("#user_icon").hover(function () {
+                        $("#user_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
+                    }, function () {
+                        if (!$(this).is(":focus")) {
+                            $("#user_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                        }
+                    }).focusin(function () {
+                        $("#user_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
+                    }).focusout(function () {
+                        if (!$(this).is(":hover")) {
+                            $("#user_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
+                        }
+                    });
+
+
                 });
     </script>
     </body>

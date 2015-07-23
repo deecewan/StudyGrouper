@@ -2,6 +2,7 @@ from flask import render_template, session, url_for, redirect, g
 from flask.ext.login import login_required, login_user, current_user
 from grouper import app, lm
 from grouper.forms import LoginForm, SignUpForm
+from markupsafe import Markup
 from models import User
 from mongoengine.errors import DoesNotExist
 
@@ -11,8 +12,7 @@ __author__ = 'David'
 @app.route('/index')
 @login_required
 def index():
-    # return render_template('index.html')
-    return 'Hello, %s.' % g.user.first_name
+    return render_template('index.html')
 
 @lm.user_loader
 def load_user(id):
@@ -33,9 +33,10 @@ def login():
                 login_user(u)
                 return redirect(url_for('index'))
             else:
+                form.username.errors.append('Incorrect Password')
                 print 'Invalid Password!'
         except DoesNotExist:
-            print 'Invalid User!'
+            form.username.errors.append(Markup('No such user - sign up <a href="/signup">here</a>.'))
     return render_template('login.html', form=form)
 
 @app.route('/signup', methods=['GET', 'POST'])

@@ -7,10 +7,48 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} | StudyGrouper</title>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="/static/base.css">
     {% block head %}
     {% endblock %}
 </head>
 <body>
+<div class="nav-div">
+    <ul class="nav">
+        <li class="nav-title">StudyGrouper</li>
+        <li class="nav-bordered" id="nav-home">Home</li>
+        <li class="nav-bordered selected" id="nav-login"><a href="{{ url_for('login') }}">Login</a></li>
+        <li class="nav-bordered">Signup</li>
+        <li class="nav-bordered">Logout</li>
+    </ul>
+</div>
+
+<script>
+$(window).resize(function(){
+    if ($(".nav").height() > 27) {
+        console.log("do a thing")
+    }
+    else {
+        console.log("do a thing")
+    }
+});
+$(".nav-bordered").hover(
+        function(){
+            $(".selected").toggleClass("selected-hovered");
+            $(".selected-hovered").toggleClass("selected")
+        },
+        function(){
+            $(".selected-hovered").toggleClass("selected");
+            $(".selected").toggleClass("selected-hovered");
+        }
+);
+    $(document).ready(
+            function () {
+                var nav_height = $(".nav-div").height();
+
+                $("body").css("padding-top", nav_height)
+            }
+    )
+</script>
 {% block content %}
 {% endblock %}
 </body>

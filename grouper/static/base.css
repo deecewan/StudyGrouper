@@ -1,0 +1,75 @@
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+body {
+    font: 400 0.875rem/1.5 "Open Sans", sans-serif;
+    background-color: #ec9409;
+    color: #606468;
+}
+
+a {
+    color: #eee;
+    outline: 0;
+    text-decoration: none;
+}
+
+.nav {
+    list-style-type: none;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.nav > li {
+    display: inline;
+    padding: 10px 15px 10px 15px;
+    height: 80%;
+    margin-left: -1px;
+    margin-right: -1px;
+    border-left: solid 1px #ec8207;
+    border-right: solid 1px #ec8207;
+}
+
+.nav > li:hover {
+    color: white;
+}
+
+.nav-div {
+    background-color: #ec8207;
+    position: fixed;
+    top: 0;
+    left: 10%;
+    width: 80%;
+    border-bottom-left-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+    margin: auto;
+    -webkit-box-shadow: 0 3px 5px 1px rgb(216, 111, 7);
+}
+
+.nav-title {
+    font-size: large;
+}
+
+.nav-first {
+    border-left: solid 1px white;
+}
+
+.nav-bordered:hover {
+    border-left: solid 1px;
+    border-right: solid 1px;
+    border-color: #2292ea;
+}
+
+.selected {
+    border-left: solid 1px;
+    border-right: solid 1px;
+    border-color: #2292ea !important;
+    background-color: #D86F07;
+    color: white;
+}
+
+.selected-hovered {
+    border-left: solid 1px;
+    border-right: solid 1px;
+    background-color: #D86F07;
+    color: white;
+}

@@ -151,3 +151,16 @@ input {
     max-width: 20rem;
     width: 90%;
 }
+
+.errors {
+    background-color: #bc3636;
+    color: #870009;
+    border-radius: .25rem;
+    height: 100%;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+/*.error {*/
+    /*color: red;*/
+/*}*/
