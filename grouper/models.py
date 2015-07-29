@@ -21,7 +21,7 @@ class Subject(db.EmbeddedDocument):
 class User(db.Document):
     id = ObjectId()
     email = db.EmailField(required=True, unique=True)
-    username = db.StringField(required=True)
+    username = db.StringField(required=True, unique=True)
     first_name = db.StringField(required=True)
     last_name = db.StringField(required=True)
     # avatar = db.ImageField(size=(200,200,True), thumbnail=(60,60,True))

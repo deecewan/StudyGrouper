@@ -1,125 +1,61 @@
 {% extends 'base.html' %}
-
-{% block title %}Log In{% endblock %}
+{% block title %}Login{% endblock %}
 {% block head %}
-    <link rel="stylesheet" href="/static/login.css">
+    <link rel="stylesheet" href="/static/css/login.css">
 {% endblock %}
 {% block content %}
+    <div class="row">
+        <div class="col s12 m6 l6 offset-m3 offset-l3">
+            <h3 class="center-align">Login to</h3>
 
-
-    <body class="align">
-
-    <div class="site__container">
-
-        <div class="grid__container">
-
-            {% if form.username.errors or form.password.errors %}
-                <div class="errors">
-
-                    <ul>
-                        {% for error in form.username.errors %}
-                            <li class="error">{{ error }}</li>
-                        {% endfor %}
-                        {% for error in form.password.errors %}
-                            <li class="error">{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-
-                </div>
-            {% endif %}
-
-
-
-            <form action="" method="post" class="form form--login">
-                {{ form.hidden_tag() }}
-                <div class="form__field">
-                    <label class="fontawesome-user" for="username" id="user_icon"><span
-                            class="hidden">Username</span></label>
-                    {{ form.username(placeholder='username') }}
-                </div>
-
-                <div class="form__field">
-                    <label class="fontawesome-lock" for="password" id="password_icon"><span
-                            class="hidden">Password</span></label>
-                    {{ form.password(placeholder='password') }}
-                </div>
-
-                <div class="form__field">
-                    <input type="submit" value="Sign In">
-                </div>
-
-            </form>
-
-            <p class="text--center">Not a member? <a href="{{ url_for('signup') }}">Sign up now</a> <span
-                    class="fontawesome-arrow-right"></span></p>
-
+            <h2 class="center-align">StudyGrouper</h2>
         </div>
-
     </div>
-    <script>
-        $(document).ready(
-                function () {
-                    $("#password").hover(function () { {# if the element is hovered, change to dark background #}
-                        $("#password_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
-                    }, function () {
-                        if (!$(this).is(":focus")) { {# check if the element has lost focus.  if yes, mouse out should
-                         trigger change to original colour.  if no, mouse out should do nothing.#}
-                            $("#password_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
-                        }
-                    }).focusin(function () { {# if the field is entered without the mouse, set correct colours (dark) #}
-                        $("#password_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
-                    }).focusout(function () { {# and finally, when the focus is lost, change to original colors #}
-                        if (!$(this).is(":hover")) {
-                            $("#password_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
-                        }
-                    });
+    <div class="row">
+        {% if form.username.errors|length > 0 or form.password.errors|length > 0 %}
+            <div class="col s12 m6 l6 offset-m3 offset-l3">
 
-                    $("#username").hover(function () {
-                        $("#user_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
-                    }, function () {
-                        if (!$(this).is(":focus")) {
-                            $("#user_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
-                        }
-                    }).focusin(function () {
-                        $("#user_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
-                    }).focusout(function () {
-                        if (!$(this).is(":hover")) {
-                            $("#user_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
-                        }
-                    });
+                <div class="card-panel materialize-red lighten-2">
+                    {% for error in form.username.errors %}
+                        - {{ error }}
+                    {% endfor %}
+                    {% for error in form.password.errors %}
+                        - {{ error }}
+                    {% endfor %}
+                </div>
 
-                    {# hovering over icons causes expected behaviour#}
-                    $("#password_icon").hover(function () { {# if the element is hovered, change to dark background #}
-                        $("#password_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
-                    }, function () {
-                        if (!$(this).is(":focus")) { {# check if the element has lost focus.  if yes, mouse out should
-                         trigger change to original colour.  if no, mouse out should do nothing.#}
-                            $("#password_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
-                        }
-                    }).focusin(function () { {# if the field is entered without the mouse, set correct colours (dark) #}
-                        $("#password_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
-                    }).focusout(function () { {# and finally, when the focus is lost, change to original colors #}
-                        if (!$(this).is(":hover")) {
-                            $("#password_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
-                        }
-                    });
+            </div>
+        {% endif %}
+    </div>
 
-                    $("#user_icon").hover(function () {
-                        $("#user_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
-                    }, function () {
-                        if (!$(this).is(":focus")) {
-                            $("#user_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
-                        }
-                    }).focusin(function () {
-                        $("#user_icon").css({"background-color": "#606468", "color": "#FFFFFF"});
-                    }).focusout(function () {
-                        if (!$(this).is(":hover")) {
-                            $("#user_icon").css({"background-color": "#d1d1d1", "color": "#606468"})
-                        }
-                    });
+    <div class="row">
+        <form class="col s12" method="post" action="">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                    <i class="material-icons prefix">account_circle</i>
+                    {{ form.username(id="username") }}
+                    <label for="username">Username</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                    <i class="material-icons prefix">lock</i>
+                    {{ form.password(id="password") }}
+                    <label for="password">Password</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s6 offset-s3 center-align">
+                    <button class="btn waves-effect waves-light" type="submit" title="Submit">
+                        <span class="valign-wrapper"><span class="valign">Login</span> <i class="material-icons"
+                                                                                          id="send_icon">lock_open</i></span>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
 
 
-                });
-    </script>
-    </body>
 {% endblock %}

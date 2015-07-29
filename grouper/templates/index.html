@@ -3,13 +3,5 @@
 {% block title %}Index{% endblock %}
 
 {% block content %}
-    <script>
-        $(document).ready(function () {
-            $(".selected").toggleClass("selected");
-            $("#nav-home").toggleClass("selected")
-        })
-    </script>
 <h1>Hello World!</h1>
-This is me.
-    {{ session.logged_in }}
 {% endblock %}

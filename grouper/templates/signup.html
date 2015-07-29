@@ -1,1 +1,64 @@
-Soon to be a signup page
+{% extends 'base.html' %}
+
+{% block title %}Signup{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/login.css">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col s12 m6 l6 offset-m3 offset-l3">
+            <h3 class="center-align">Login to</h3>
+
+            <h2 class="center-align">StudyGrouper</h2>
+        </div>
+    </div>
+    <div class="row">
+        {% if form.username.errors|length > 0 or form.password.errors|length > 0 %}
+            <div class="col s12 m6 l6 offset-m3 offset-l3">
+
+                <div class="card-panel materialize-red lighten-2">
+                    {% for error in form.username.errors %}
+                        - {{ error }}
+                    {% endfor %}
+                    {% for error in form.password.errors %}
+                        - {{ error }}
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <form class="col s12" method="post" action="">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                    <i class="material-icons prefix">account_circle</i>
+                    {{ form.username(id="username") }}
+                    <label for="username">Username</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                    <i class="material-icons prefix">lock</i>
+                    {{ form.password(id="password") }}
+                    <label for="password">Password</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s6 offset-s3 center-align">
+                    <button class="btn waves-effect waves-light" type="submit" title="Submit">
+                        <span class="valign-wrapper"><span class="valign">Login</span> <i class="material-icons"
+                                                                                          id="send_icon">lock_open</i></span>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+{% endblock %}

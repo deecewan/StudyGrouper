@@ -5,51 +5,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/base.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    {# Import Materialize.css #}
+    <link rel="stylesheet" href="/static/sass/materialize.css">
+    {# Title Creation Block #}
     <title>{% block title %}{% endblock %} | StudyGrouper</title>
+    {# Import jQuery #}
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <link rel="stylesheet" href="/static/base.css">
+    {# Import materialize.js #}
+    <script src="/static/js/bin/materialize.min.js"></script>
     {% block head %}
     {% endblock %}
 </head>
 <body>
-<div class="nav-div">
-    <ul class="nav">
-        <li class="nav-title">StudyGrouper</li>
-        <li class="nav-bordered" id="nav-home">Home</li>
-        <li class="nav-bordered selected" id="nav-login"><a href="{{ url_for('login') }}">Login</a></li>
-        <li class="nav-bordered">Signup</li>
-        <li class="nav-bordered">Logout</li>
-    </ul>
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">StudyGrouper</a>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="side-nav">
+                {% if session.logged_in != True %}
+                    <li class="{% if page == 'login' %}active{% endif %}"><a href="{{ url_for('login') }}">Login</a>
+                    </li>{% endif %}
+                {% if session.logged_in != True %}
+                    <li class="{% if page == 'signup' %}active{% endif %}"><a href="{{ url_for('signup') }}">Sign Up</a>
+                    </li>{% endif %}
+                {% if session.logged_in == True %}
+                    <li><a href="#" class="valign-wrapper"><img src="/static/images/avatar.jpeg" id="avatar-mobile"
+                                                                class="valign circle responsive-img left"
+                                                                width="40px">{{ g.user.username }}</a></li>
+                    <li class="{% if page == 'logout' %}active{% endif %}"><a href="{{ url_for('logout') }}"><i class="material-icons prefix left">lock</i>Log Out</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul id="standard-nav" class="right hide-on-med-and-down">
+                {% if session.logged_in != True %}
+                    <li class="{% if page == 'login' %}active{% endif %}"><a href="{{ url_for('login') }}">Login</a>
+                    </li>
+                    <li class="{% if page == 'signup' %}active{% endif %}"><a href="{{ url_for('signup') }}">Sign Up</a>
+                    </li>{% endif %}
+                {% if session.logged_in == True %}
+                    <li><a href="#" class="valign-wrapper"><img src="/static/images/avatar.jpeg" id="avatar"
+                                                                class="valign circle responsive-img left"
+                                                                width="40px">{{ g.user.username }}</a></li>
+                    <li class="{% if page == 'logout' %}active{% endif %}"><a href="{{ url_for('logout') }}">Log Out</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
 </div>
-
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
 <script>
-$(window).resize(function(){
-    if ($(".nav").height() > 27) {
-        console.log("do a thing")
-    }
-    else {
-        console.log("do a thing")
-    }
-});
-$(".nav-bordered").hover(
-        function(){
-            $(".selected").toggleClass("selected-hovered");
-            $(".selected-hovered").toggleClass("selected")
-        },
-        function(){
-            $(".selected-hovered").toggleClass("selected");
-            $(".selected").toggleClass("selected-hovered");
-        }
-);
-    $(document).ready(
-            function () {
-                var nav_height = $(".nav-div").height();
-
-                $("body").css("padding-top", nav_height)
-            }
-    )
+    $(document).ready(function () {
+        $(".button-collapse").sideNav();
+    })
 </script>
-{% block content %}
-{% endblock %}
 </body>
 </html>
