@@ -29,7 +29,6 @@ class User(db.Document):
     subjects = db.EmbeddedDocumentListField(Subject)
 
     def is_authenticated(self):
-        print 'check auth'
         return session['logged_in']
 
     def is_active(self):

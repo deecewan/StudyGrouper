@@ -64,7 +64,17 @@
 <script>
     $(document).ready(function () {
         $(".button-collapse").sideNav();
+        $(".help-wrapper").hover(function(event){
+                    var card_height = $(".help-info").height();
+            $(".help-info").css({'display': 'block',
+                'top': (event.pageY - (card_height/2))+'px',
+                'left': event.pageX+'px'})
+        },
+        function(){
+            $(".help-info").css('display','none')
+        });
     })
+
 </script>
 </body>
 </html>

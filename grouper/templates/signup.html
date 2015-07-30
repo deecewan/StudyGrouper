@@ -3,62 +3,98 @@
 {% block title %}Signup{% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/signup.css">
 {% endblock %}
 
 {% block content %}
     <div class="row">
         <div class="col s12 m6 l6 offset-m3 offset-l3">
-            <h3 class="center-align">Login to</h3>
-
-            <h2 class="center-align">StudyGrouper</h2>
+            <h3 class="center-align">Create an Account</h3>
         </div>
     </div>
-    <div class="row">
-        {% if form.username.errors|length > 0 or form.password.errors|length > 0 %}
+    <div class="row"> {# Error Handling #}
+        {% if form.errors|length > 0 %}
             <div class="col s12 m6 l6 offset-m3 offset-l3">
-
                 <div class="card-panel materialize-red lighten-2">
-                    {% for error in form.username.errors %}
-                        - {{ error }}
-                    {% endfor %}
-                    {% for error in form.password.errors %}
-                        - {{ error }}
+                    {% for field, errorMessage in form.errors.iteritems() %}
+                        {% for error in errorMessage %}
+                            - {{ field|title }} : {{ error }}
+                            <br>
+                        {% endfor %}
                     {% endfor %}
                 </div>
-
             </div>
         {% endif %}
     </div>
-
+    {# Signup Form Implementation #}
     <div class="row">
         <form class="col s12" method="post" action="">
-            {{ form.hidden_tag() }}
-            <div class="row">
+            {{ form.hidden_tag() }} {# Hidden tag for CSRF or something.  Makes WTForms work. #}
+            <div class="row valign-wrapper"> {# Name #}
+                <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                    <i class="material-icons prefix">person_pin</i>
+                    {{ form.name(id="name") }}
+                    <label for="name">Name</label>
+                </div>
+                <div class="help-wrapper" id="qut-email-wrapper">
+                    <i class="material-icons right small valign" id="qut-email-help">help_outline</i>
+                </div>
+
+            </div>
+            <div class="row"> {# Username #}
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
                     <i class="material-icons prefix">account_circle</i>
                     {{ form.username(id="username") }}
                     <label for="username">Username</label>
                 </div>
             </div>
-            <div class="row">
+            <div class="row"> {# Password #}
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
                     <i class="material-icons prefix">lock</i>
                     {{ form.password(id="password") }}
                     <label for="password">Password</label>
                 </div>
             </div>
-            <div class="row">
+            <div class="row"> {# Confirm Password #}
+                <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                    <i class="material-icons prefix">lock_outline</i>
+                    {{ form.confirm_password(id="confirm-password") }}
+                    <label for="confirm-password">Confirm Password</label>
+                </div>
+            </div>
+            <div class="row"> {# Email #}
+                <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                    <i class="material-icons prefix">email</i>
+                    {{ form.email(id="email") }}
+                    <label for="email">Email Address</label>
+                </div>
+            </div>
+            <div class="row valign-wrapper"> {# QUT Email #}
+                <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                    <i class="material-icons prefix">email</i>
+                    {{ form.qut_email(id="qut-email") }}
+                    <label for="qut-email">QUT Email Address</label>
+                </div>
+                <div class="help-wrapper">
+                    <i class="material-icons right small valign" id="qut-email-help">help_outline</i>
+                </div>
+
+            </div>
+            <div class="row"> {# Submit #}
                 <div class="col s6 offset-s3 center-align">
                     <button class="btn waves-effect waves-light" type="submit" title="Submit">
-                        <span class="valign-wrapper"><span class="valign">Login</span> <i class="material-icons"
-                                                                                          id="send_icon">lock_open</i></span>
+                        <span class="valign-wrapper"><span class="valign">Sign Up</span> <i class="material-icons"
+                                                                                            id="send_icon">person_add</i></span>
                     </button>
                 </div>
             </div>
 
         </form>
+
     </div>
 
-
+    <div class="help-info card-panel">
+        <p>This field is optional. If you choose to use your QUT email in the 'Email' field, you can leave this
+            blank</p>
+    </div>
 {% endblock %}
