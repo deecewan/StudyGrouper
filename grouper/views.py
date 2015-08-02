@@ -2,6 +2,8 @@ import hashlib
 import md5
 from flask import render_template, session, url_for, redirect, g
 from flask.ext.login import login_required, login_user, current_user
+from forms import QUTLoginForm
+from functions import auto_import
 from grouper import app, lm
 from grouper.forms import LoginForm, SignUpForm
 from markupsafe import Markup
@@ -73,7 +75,8 @@ def signup():
             form.email.errors.append("Invalid Email Address.")
         except NotUniqueError as e:
             if 'email' in e.message:
-                form.email.errors.append("That email address is already in use.  Log In?") #TODO: Link to the login page
+                form.email.errors.append(
+                    "That email address is already in use.  Log In?")  # TODO: Link to the login page
             elif 'username' in e.message:
                 form.username.errors.append("Username taken.  Please choose another.")
             else:
@@ -86,3 +89,19 @@ def signup():
 def logout():
     session['logged_in'] = False
     return redirect(url_for('index'))
+
+
+@app.route('/<username>')
+@login_required
+def profile(username):
+    u = User.objects.get(username=username)
+
+    return render_template('profile.html', user=u)
+
+
+@app.route('/edit_classes', methods=['GET', 'POST'])
+def edit_classes():
+    qut_login_form = QUTLoginForm()
+    if qut_login_form.validate_on_submit():
+        auto_import(qut_login_form.qut_username.data, qut_login_form.qut_password.data)
+    return render_template('edit_classes.html', u=g.user, classes=g.user.subjects, qut_login_form=qut_login_form)

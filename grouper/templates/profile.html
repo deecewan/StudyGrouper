@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if g.user.username != user.username %}
+        {{ user.username }}'s Profile
+    {% else %}Your Profile
+    {% endif %}
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/css/profile.css">
+{% endblock %}
+
+{% block content %}
+    <div class="row ">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content valign-wrapper">
+                    <img src="/static/images/avatar.jpeg" id="avatar"
+                         class="valign circle responsive-img left"
+                            >
+                    <span class="username">
+                        {{ user.first_name }}'s Profile
+                    </span>
+                    {% if g.user.username == user.username %}
+                        <button class="btn waves-effect waves-light valign edit">
+                            <i class="material-icons left">edit</i>
+                            Edit Profile
+                        </button>
+                        <a href="{{ url_for('edit_classes') }}" class="btn waves-effect waves-light valign classes edit">
+                            <i class="material-icons left">school</i>
+                            Edit Classes
+                        </a>
+
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

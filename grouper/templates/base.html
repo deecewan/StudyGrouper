@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {# Internet #}
     <link rel="stylesheet" href="/static/css/base.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     {# Import Materialize.css #}
@@ -13,13 +14,17 @@
     {# Title Creation Block #}
     <title>{% block title %}{% endblock %} | StudyGrouper</title>
     {# Import jQuery #}
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    {# Local Version #}
+    <script src="/static/js/jquery.js"></script>
+    {#    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>#}
     {# Import materialize.js #}
     <script src="/static/js/bin/materialize.min.js"></script>
     {% block head %}
     {% endblock %}
 </head>
 <body>
+{% block body %}
+{% endblock %}
 <div class="navbar-fixed">
     <nav>
         <div class="nav-wrapper">
@@ -33,9 +38,10 @@
                     <li class="{% if page == 'signup' %}active{% endif %}"><a href="{{ url_for('signup') }}">Sign Up</a>
                     </li>{% endif %}
                 {% if session.logged_in == True %}
-                    <li><a href="#" class="valign-wrapper"><img src="/static/images/avatar.jpeg" id="avatar-mobile"
-                                                                class="valign circle responsive-img left"
-                                                                width="40px">{{ g.user.username }}</a></li>
+                    <li><a href="{{ '/' + g.user.username }}" class="valign-wrapper"><img
+                            src="/static/images/avatar.jpeg" id="avatar-mobile"
+                            class="valign circle responsive-img left"
+                            width="40px">{{ g.user.username }}</a></li>
                     <li class="{% if page == 'logout' %}active{% endif %}"><a href="{{ url_for('logout') }}"><i
                             class="material-icons prefix left">lock</i>Log Out</a>
                     </li>
@@ -48,9 +54,10 @@
                     <li class="{% if page == 'signup' %}active{% endif %}"><a href="{{ url_for('signup') }}">Sign Up</a>
                     </li>{% endif %}
                 {% if session.logged_in == True %}
-                    <li><a href="#" class="valign-wrapper"><img src="/static/images/avatar.jpeg" id="avatar"
-                                                                class="valign circle responsive-img left"
-                                                                width="40px">{{ g.user.username }}</a></li>
+                    <li><a href="{{ '/' + g.user.username }}" class="valign-wrapper"><img
+                            src="/static/images/avatar.jpeg" id="avatar"
+                            class="valign circle responsive-img left"
+                            width="40px">{{ g.user.username }}</a></li>
                     <li class="{% if page == 'logout' %}active{% endif %}"><a href="{{ url_for('logout') }}">Log Out</a>
                     </li>
                 {% endif %}
@@ -64,10 +71,16 @@
 </div>
 <script>
     $(document).ready(function () {
+        if (window.innerWidth < 600) {
+            $("#top-button").addClass('button-container')
+        }
+        else {
+            $("#top-button").removeClass('button-container')
+        }
         $(".button-collapse").sideNav();
         $(".help-wrapper").hover(function (event) {
                     var help_info = $(".help-info");
-                    card_height = help_info.height();
+                    var card_height = help_info.height();
                     help_info.css({
                         'display': 'block',
                         'top': (event.pageY - (card_height / 2)) + 'px',
@@ -77,8 +90,84 @@
                 function () {
                     $(".help-info").css('display', 'none')
                 });
-    })
+        $(".qut-note").click(function () {
+            show_popup();
+        });
 
+        $(".cover").click(function () {
+            hide_popup();
+            hide_qut_login_form();
+        });
+
+        $(".dismiss").click(function () {
+            hide_popup();
+        });
+
+        $(".auto-import").click(function () {
+            show_qut_login_form();
+        })
+    });
+
+    function show_popup() {
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+
+        var card = $(".pop-up-card");
+        var cover = $(".cover");
+        var card_width;
+        if (width < 500) {
+            card_width = '100%';
+            card.css({
+                'left': 0,
+                'width': card_width
+            });
+            card.fadeIn(200);
+            cover.fadeIn(200);
+        }
+        else {
+            card.fadeIn(200);
+            cover.fadeIn(200);
+        }
+    }
+
+    function hide_popup() {
+        var cover = $(".cover");
+        var card = $(".pop-up-card");
+        cover.fadeOut(200);
+        card.fadeOut(200);
+
+    }
+
+    function show_qut_login_form() {
+        var cover = $(".cover");
+        var form = $(".qut-login-form");
+        var width = window.innerWidth;
+
+        if (width < 500) {
+            form.css({
+                'left': 0,
+                'width': '100%'
+            });
+            form.fadeIn(200);
+            cover.fadeIn(200);
+        }
+        else {
+            form.fadeIn(200);
+            cover.fadeIn(200);
+        }
+    }
+
+    function hide_qut_login_form() {
+        var form = $(".qut-login-form");
+
+        form.fadeOut(200);
+    }
+
+    $(window).resize(function(){
+        if (window.innerWidth < 600) {
+            $("#top-button").addClass('button-container')
+        }
+    })
 </script>
 </body>
 </html>
