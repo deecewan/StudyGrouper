@@ -14,9 +14,7 @@
     {# Title Creation Block #}
     <title>{% block title %}{% endblock %} | StudyGrouper</title>
     {# Import jQuery #}
-    {# Local Version #}
-    <script src="/static/js/jquery.js"></script>
-    {#    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>#}
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     {# Import materialize.js #}
     <script src="/static/js/bin/materialize.min.js"></script>
     {% block head %}
@@ -64,6 +62,24 @@
             </ul>
         </div>
     </nav>
+</div>
+
+<div class="flashed row">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="col s12 m6 l6 offset-m3 offset-l3">
+                <div class="card-panel blue lighten-2 white-text">
+                    <ul class="flash-list">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+
 </div>
 <div class="container">
     {% block content %}
@@ -163,7 +179,7 @@
         form.fadeOut(200);
     }
 
-    $(window).resize(function(){
+    $(window).resize(function () {
         if (window.innerWidth < 600) {
             $("#top-button").addClass('button-container')
         }

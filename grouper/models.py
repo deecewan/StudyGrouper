@@ -1,5 +1,6 @@
 from bson import ObjectId
 from flask import session
+from flask.ext.mongoengine.wtf import model_form
 from grouper import db
 
 __author__ = 'David'
@@ -39,3 +40,5 @@ class User(db.Document):
 
     def get_id(self):
         return unicode(self.id)
+
+UserForm = model_form(User)

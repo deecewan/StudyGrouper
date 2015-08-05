@@ -2,12 +2,13 @@ import hashlib
 import md5
 from flask import render_template, session, url_for, redirect, g
 from flask.ext.login import login_required, login_user, current_user
+from flask.helpers import flash, get_flashed_messages
 from forms import QUTLoginForm
 from functions import auto_import
 from grouper import app, lm
 from grouper.forms import LoginForm, SignUpForm
 from markupsafe import Markup
-from models import User
+from models import User, UserForm
 from mongoengine.errors import DoesNotExist, NotUniqueError
 from wtforms.validators import ValidationError
 
@@ -56,7 +57,6 @@ def signup():
     is_logged_in = session['logged_in']
     if form.validate_on_submit():
         u = User()
-
         u.username = form.username.data
         u.password = hashlib.md5(form.password.data).hexdigest()
         u.email = form.email.data
@@ -70,6 +70,7 @@ def signup():
             u.save()
             session['logged_in'] = True
             login_user(u)
+            flash("Welcome to StudyGrouper, %s!" % u.first_name)
             return redirect(url_for('index'))
         except ValidationError:
             form.email.errors.append("Invalid Email Address.")
@@ -81,8 +82,11 @@ def signup():
                 form.username.errors.append("Username taken.  Please choose another.")
             else:
                 form.errors['unknown'] = ['An unknown error has occurred.  Please try again.']
-
-    return render_template('signup.html', form=form, page='signup', logged=is_logged_in)
+    if not is_logged_in:
+        return render_template('signup.html', form=form, page='signup', logged=is_logged_in)
+    else:
+        flash("You are already logged in!")
+        return render_template('index.html', page='index')
 
 
 @app.route('/logout')
@@ -94,8 +98,10 @@ def logout():
 @app.route('/<username>')
 @login_required
 def profile(username):
-    u = User.objects.get(username=username)
-
+    try:
+        u = User.objects.get(username=username)
+    except DoesNotExist:
+        u = None
     return render_template('profile.html', user=u)
 
 
