@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, SelectField, DateTimeField
 from wtforms.validators import DataRequired
 
 __author__ = 'David'
@@ -20,5 +20,19 @@ class LoginForm(Form):
 
 
 class QUTLoginForm(Form):
-    qut_username = StringField('username', validators = [DataRequired()])
-    qut_password = PasswordField('password', validators= [DataRequired()])
+    qut_username = StringField('username', validators=[DataRequired()])
+    qut_password = PasswordField('password', validators=[DataRequired()])
+
+
+class ManualClassForm(Form):
+    title = StringField('title', validators=[DataRequired()])
+    unit_code = StringField('unit-code', validators=[DataRequired()])
+
+
+class ManualClassTimes(Form):
+    choices = [('mon', 'Monday'), ('tue', 'Tuesday'), ('wed', 'Wednesday'), ('thu', 'Thursday'), ('fri', 'Friday'),
+               ('sat', 'Saturday'), ('sun', 'Sunday')]
+    day = SelectField(u'Day', choices=choices)
+    class_type = StringField('Class Type')
+    start_time = DateTimeField('start-time', format='%H:%M:%S')
+    end_time = DateTimeField('start-time', format='%H:%M:%S')

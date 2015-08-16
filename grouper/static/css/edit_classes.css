@@ -35,3 +35,7 @@
 .button-container {
     margin-bottom: 20px;
 }
+
+.drop_down {
+    z-index: 1001;
+}

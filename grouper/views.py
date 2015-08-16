@@ -3,7 +3,7 @@ import md5
 from flask import render_template, session, url_for, redirect, g
 from flask.ext.login import login_required, login_user, current_user
 from flask.helpers import flash, get_flashed_messages
-from forms import QUTLoginForm
+from forms import QUTLoginForm, ManualClassForm, ManualClassTimes
 from functions import auto_import
 from grouper import app, lm
 from grouper.forms import LoginForm, SignUpForm
@@ -108,6 +108,9 @@ def profile(username):
 @app.route('/edit_classes', methods=['GET', 'POST'])
 def edit_classes():
     qut_login_form = QUTLoginForm()
+    class_add_form = ManualClassForm()
+    time_form = ManualClassTimes()
     if qut_login_form.validate_on_submit():
         auto_import(qut_login_form.qut_username.data, qut_login_form.qut_password.data)
-    return render_template('edit_classes.html', u=g.user, classes=g.user.subjects, qut_login_form=qut_login_form)
+    return render_template('edit_classes.html', u=g.user, classes=g.user.subjects, qut_login_form=qut_login_form,
+                           class_add_form=class_add_form, time_form=time_form)
