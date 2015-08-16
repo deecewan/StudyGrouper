@@ -1,4 +1,4 @@
-web: gunicorn based:app \
+web: gunicorn grouper:app \
     --error-logfile "-" \
     --enable-stdio-inheritance \
     --reload \
