@@ -54,7 +54,10 @@ def login():
 def signup():
     # TODO: Update with salt information?
     form = SignUpForm()
-    is_logged_in = session['logged_in']
+    try:
+        is_logged_in = session['logged_in']
+    except KeyError:
+        is_logged_in = False
     if form.validate_on_submit():
         u = User()
         u.username = form.username.data
